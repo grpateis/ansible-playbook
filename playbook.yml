@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Ensure httpd  is installed.
+    yum:
+      name: httpd
+      state: present
+
+  - name: Ensure httpd is running.
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  - name: Ensure httpd-devel is installed
+    yum:
+      name: httpd-devel
+      state: present
+
+  - name: Copy Configuration Files
+    copy:
+      src: "{{item.src}}"  
+      dest: "{{item.dest}}"
+      owner: root
+      group: root
+      mode: 0644
+      with_items:
+        - src: http.conf
+          dest: /etc/httpd/conf/httpd-conf
+        - src: httpd-vhosts.conf
+          dest:  /etc/httpd/conf/httpd-vhosts.conf
+
+ 
+

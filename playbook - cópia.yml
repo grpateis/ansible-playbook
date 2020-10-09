@@ -1,0 +1,17 @@
+---
+# the 3 dashes are separator for yaml
+    - name: Install Apache
+        hosts: all
+
+        tasks:
+            - name: Install Apache app
+            command: yum install --quiet -y httpd httpd-devel
+
+            - name: Copy Configuration Files
+            command: >
+                cp htttpd.conf /etc/httpd/conf/httpd.conf
+            - command: >
+                cp httpd-vhosts /etc/httpd/conf/httpd-vhosts.conf
+            - name: Start Apache and cofigure it to run at boot
+                command : service httpd start
+                command: chkconfig httpd on
